@@ -12,23 +12,6 @@ pipeline {
             ''' 
       }
     }
-    stage ('Check-Git-Secrets') {
-      steps {
-        sh ' rm test || true '
-        sh ' docker run -t gesellix/trufflehog --json https://github.com/abhinav1144/spring-lemon.git> test '
-        sh ' cat test '
-      }
-    }
-    stage ('Source Composition Analysis') {
-      steps {
-         sh 'rm owasp* || true'
-         sh 'wget "https://raw.githubusercontent.com/abhinav1144/spring-lemon/master/owasp-dependency-check.sh" '
-         sh 'chmod +x owasp-dependency-check.sh'
-         sh 'bash owasp-dependency-check.sh'
-         sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
-        
-      }
-    }
     stage ('Build') {
       steps {
       sh 'mvn clean package'
